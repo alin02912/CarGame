@@ -1,0 +1,14 @@
+{ "columns":37,
+ "image":"roguelikeCity_magenta.png",
+ "imageheight":475,
+ "imagewidth":628,
+ "margin":0,
+ "name":"ptry4",
+ "spacing":1,
+ "tilecount":1036,
+ "tiledversion":"1.7.0",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.6"
+}
