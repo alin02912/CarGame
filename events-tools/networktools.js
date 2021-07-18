@@ -63,100 +63,19 @@ var gdjs;
         runtimeScene.getGame().enableMetrics(enable);
       };
       network2.variableStructureToJSON = function(variable) {
-        if (variable.isPrimitive()) {
-          return JSON.stringify(variable.getValue());
-        } else if (variable.getType() === "array") {
-          let str = "[";
-          let firstChild = true;
-          const children = variable.getAllChildren();
-          for (const p in children) {
-            if (children.hasOwnProperty(p)) {
-              if (!firstChild) {
-                str += ",";
-              }
-              str += network2.variableStructureToJSON(children[p]);
-              firstChild = false;
-            }
-          }
-          str += "]";
-          return str;
-        } else if (variable.getType() === "structure") {
-          let str = "{";
-          let firstChild = true;
-          const children = variable.getAllChildren();
-          for (const p in children) {
-            if (children.hasOwnProperty(p)) {
-              if (!firstChild) {
-                str += ",";
-              }
-              str += JSON.stringify(p) + ": " + network2.variableStructureToJSON(children[p]);
-              firstChild = false;
-            }
-          }
-          str += "}";
-          return str;
-        }
-        console.error("JSON conversion error: Variable type not recognized");
-        return "";
+        return JSON.stringify(variable.toJSObject());
       };
       network2.objectVariableStructureToJSON = function(object, variable) {
-        return gdjs2.evtTools.network.variableStructureToJSON(variable);
+        return JSON.stringify(variable.toJSObject());
       };
       network2._objectToVariable = function(obj, variable) {
-        if (obj === null) {
-          variable.setString("null");
-        } else if (typeof obj === "number") {
-          if (Number.isNaN(obj)) {
-            console.warn("Variables cannot be set to NaN, setting it to 0.");
-            variable.setNumber(0);
-          } else {
-            variable.setNumber(obj);
-          }
-        } else if (typeof obj === "string") {
-          variable.setString(obj);
-        } else if (typeof obj === "undefined") {
-        } else if (typeof obj === "boolean") {
-          variable.setBoolean(obj);
-        } else if (Array.isArray(obj)) {
-          variable.castTo("array");
-          variable.clearChildren();
-          for (const i in obj) {
-            network2._objectToVariable(obj[i], variable.getChild(i));
-          }
-        } else if (typeof obj === "object") {
-          variable.castTo("structure");
-          variable.clearChildren();
-          for (var p in obj) {
-            if (obj.hasOwnProperty(p)) {
-              network2._objectToVariable(obj[p], variable.getChild(p));
-            }
-          }
-        } else if (typeof obj === "symbol") {
-          variable.setString(obj.toString());
-        } else if (typeof obj === "bigint") {
-          if (obj > Number.MAX_SAFE_INTEGER)
-            console.warn("Integers bigger than " + Number.MAX_SAFE_INTEGER + " aren't supported by variables, it will be reduced to that size.");
-          variable.setNumber(parseInt(obj, 10));
-        } else if (typeof obj === "function") {
-          console.error("Error: Impossible to set variable value to a function.");
-        } else {
-          console.error("Cannot identify type of object:", obj);
-        }
+        variable.fromJSObject(obj);
       };
       network2.jsonToVariableStructure = function(jsonStr, variable) {
-        if (jsonStr.length === 0) {
-          return false;
-        }
-        try {
-          const obj = JSON.parse(jsonStr);
-          gdjs2.evtTools.network._objectToVariable(obj, variable);
-          return true;
-        } catch (e) {
-          return false;
-        }
+        variable.fromJSON(jsonStr);
       };
       network2.jsonToObjectVariableStructure = function(jsonStr, object, variable) {
-        gdjs2.evtTools.network.jsonToVariableStructure(jsonStr, variable);
+        variable.fromJSON(jsonStr);
       };
     })(network = evtTools2.network || (evtTools2.network = {}));
   })(evtTools = gdjs2.evtTools || (gdjs2.evtTools = {}));

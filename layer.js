@@ -192,15 +192,9 @@ var gdjs;
       return this._clearColor;
     }
     setClearColor(r, g, b) {
-      if (r) {
-        this._clearColor[0] = r / 255;
-      }
-      if (g) {
-        this._clearColor[1] = g / 255;
-      }
-      if (b) {
-        this._clearColor[2] = b / 255;
-      }
+      this._clearColor[0] = r / 255;
+      this._clearColor[1] = g / 255;
+      this._clearColor[2] = b / 255;
       this._renderer.updateClearColor();
     }
     setFollowBaseLayerCamera(follow) {

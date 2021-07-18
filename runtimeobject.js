@@ -241,10 +241,7 @@ var gdjs;
       return variable.getAsString();
     }
     static getVariableChildCount(variable) {
-      if (variable.isStructure() == false) {
-        return 0;
-      }
-      return Object.keys(variable.getAllChildren()).length;
+      return variable.getChildrenCount();
     }
     static setVariableNumber(variable, newValue) {
       variable.setNumber(newValue);

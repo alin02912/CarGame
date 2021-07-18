@@ -125,6 +125,9 @@ var gdjs;
     _str: "",
     _undefinedInContainer: true,
     _value: 0,
+    fromJSON: () => gdjs2.VariablesContainer.badVariable,
+    toJSObject: () => 0,
+    fromJSObject: () => gdjs2.VariablesContainer.badVariable,
     reinitialize: () => {
     },
     addChild: () => gdjs2.VariablesContainer.badVariable,

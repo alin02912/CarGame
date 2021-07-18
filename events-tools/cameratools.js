@@ -180,17 +180,14 @@ var gdjs;
         return runtimeScene.getLayer(layer).getDefaultZOrder();
       };
       camera2.setLayerAmbientLightColor = function(runtimeScene, layerName, rgbColor) {
-        if (!runtimeScene.hasLayer(layerName)) {
-          return;
-        }
-        if (!runtimeScene.getLayer(layerName).isLightingLayer()) {
+        if (!runtimeScene.hasLayer(layerName) || !runtimeScene.getLayer(layerName).isLightingLayer()) {
           return;
         }
         const colors = rgbColor.split(";");
         if (colors.length < 3) {
           return;
         }
-        return runtimeScene.getLayer(layerName).setClearColor(parseInt(colors[0]), parseInt(colors[1]), parseInt(colors[2]));
+        return runtimeScene.getLayer(layerName).setClearColor(parseInt(colors[0], 10), parseInt(colors[1], 10), parseInt(colors[2], 10));
       };
     })(camera = evtTools2.camera || (evtTools2.camera = {}));
   })(evtTools = gdjs2.evtTools || (gdjs2.evtTools = {}));

@@ -15,6 +15,7 @@ var gdjs;
       this._canvasWidth = 0;
       this._canvasHeight = 0;
       this._keepRatio = true;
+      this._nextFrameId = 0;
       this._game = game;
       this._forceFullscreen = forceFullscreen;
       this._marginLeft = this._marginTop = this._marginRight = this._marginBottom = 0;
@@ -322,15 +323,16 @@ var gdjs;
       return typeof document !== "undefined" ? document.title : "";
     }
     startGameLoop(fn) {
-      requestAnimationFrame(gameLoop);
       let oldTime = 0;
-      function gameLoop(time) {
+      const gameLoop = (time) => {
+        this._nextFrameId = requestAnimationFrame(gameLoop);
         const dt = oldTime ? time - oldTime : 0;
         oldTime = time;
-        if (fn(dt)) {
-          requestAnimationFrame(gameLoop);
+        if (!fn(dt)) {
+          cancelAnimationFrame(this._nextFrameId);
         }
-      }
+      };
+      requestAnimationFrame(gameLoop);
     }
     getPIXIRenderer() {
       return this._pixiRenderer;
