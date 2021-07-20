@@ -15,6 +15,7 @@ var gdjs;
   gdjs2.callbacksRuntimeSceneUnloading = [];
   gdjs2.callbacksRuntimeSceneUnloaded = [];
   gdjs2.callbacksObjectDeletedFromScene = [];
+  gdjs2.gdevelopLogo = "";
   gdjs2.rgbToHex = function(r, g, b) {
     return "" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   };

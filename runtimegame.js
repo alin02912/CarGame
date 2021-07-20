@@ -165,44 +165,43 @@ var gdjs;
       this._paused = enable;
     }
     loadAllAssets(callback, progressCallback) {
-      const loadingScreen = new gdjs2.LoadingScreenRenderer(this.getRenderer(), this._data.properties.loadingScreen);
+      const loadingScreen = new gdjs2.LoadingScreenRenderer(this.getRenderer(), this._imageManager, this._data.properties.loadingScreen);
       const allAssetsTotal = this._data.resources.resources.length;
       const that = this;
       this._imageManager.loadTextures(function(count, total) {
         const percent = Math.floor(count / allAssetsTotal * 100);
-        loadingScreen.render(percent);
+        loadingScreen.setPercent(percent);
         if (progressCallback) {
           progressCallback(percent);
         }
       }, function(texturesTotalCount) {
         that._soundManager.preloadAudio(function(count, total) {
           const percent = Math.floor((texturesTotalCount + count) / allAssetsTotal * 100);
-          loadingScreen.render(percent);
+          loadingScreen.setPercent(percent);
           if (progressCallback) {
             progressCallback(percent);
           }
         }, function(audioTotalCount) {
           that._fontManager.loadFonts(function(count, total) {
             const percent = Math.floor((texturesTotalCount + audioTotalCount + count) / allAssetsTotal * 100);
-            loadingScreen.render(percent);
+            loadingScreen.setPercent(percent);
             if (progressCallback) {
               progressCallback(percent);
             }
           }, function(fontTotalCount) {
             that._jsonManager.preloadJsons(function(count, total) {
               const percent = Math.floor((texturesTotalCount + audioTotalCount + fontTotalCount + count) / allAssetsTotal * 100);
-              loadingScreen.render(percent);
+              loadingScreen.setPercent(percent);
               if (progressCallback) {
                 progressCallback(percent);
               }
             }, function(jsonTotalCount) {
               that._bitmapFontManager.loadBitmapFontData((count) => {
                 var percent = Math.floor((texturesTotalCount + audioTotalCount + fontTotalCount + jsonTotalCount + count) / allAssetsTotal * 100);
-                loadingScreen.render(percent);
+                loadingScreen.setPercent(percent);
                 if (progressCallback)
                   progressCallback(percent);
-              }).then(() => {
-                loadingScreen.unload();
+              }).then(() => loadingScreen.unload()).then(() => {
                 callback();
               });
             });
