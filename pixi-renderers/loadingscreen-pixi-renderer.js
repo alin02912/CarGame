@@ -84,7 +84,7 @@ var gdjs;
         this._gdevelopLogoSprite.position.y = this._pixiRenderer.height / 2;
         const logoWidth = 680;
         const border = this._pixiRenderer.width > this._pixiRenderer.height && this._pixiRenderer.width > 500 ? 150 : 35;
-        const desiredWidth = Math.max(1, this._pixiRenderer.width - border * 2);
+        const desiredWidth = Math.min(logoWidth, Math.max(1, this._pixiRenderer.width - border * 2));
         const scale = desiredWidth / logoWidth;
         this._gdevelopLogoSprite.scale.x = scale;
         this._gdevelopLogoSprite.scale.y = scale;
